@@ -29,7 +29,6 @@ function Cart() {
 
   return (
     <div>
-      {cart}
       <Link to="/menu">&larr; Back to menu</Link>
 
       <h2>Your cart, %NAME%</h2>
