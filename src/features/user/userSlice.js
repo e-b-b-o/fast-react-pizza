@@ -1,12 +1,11 @@
-// function getPosition() {
-//   return new Promise(function (resolve, reject) {
-//     navigator.geolocation.getCurrentPosition(resolve, reject);
-//   });
-// }
+function getPosition() {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+}
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getAddress } from "../../services/apiGeocoding";
-import { builders } from "prettier/doc.js";
 
 export const fetchAddress = createAsyncThunk(
   "user/fetchAddress",
@@ -31,7 +30,7 @@ const initialState = {
   username: "",
   status: "idle",
   position: {},
-  adress: "",
+  address: "",
   error: "",
 };
 
@@ -45,23 +44,19 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) =>
     builder
-      .addCase(
-        fetchAddress.pending,
-        (state, action) => (state.status = " loading"),
-      )
-      .addCase(
-        fetchAddress.fulfilled,
-        (state, action) => (
-          (state.position = action.payload.position),
-          (state.adress = action.payload.address),
-          (state.status = "idle")
-        ),
-      )
-      .addCase(
-        fetchAddress.rejected,
-        (state, action) => {(state.status = "error"),
-        (state.error = actoion),}
-      ),
+      .addCase(fetchAddress.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAddress.fulfilled, (state, action) => {
+        state.position = action.payload.position;
+        state.address = action.payload.address;
+        state.status = "idle";
+      })
+      .addCase(fetchAddress.rejected, (state, action) => {
+        state.status = "error";
+        state.error =
+          "There was a proprem getting your address. Make sure to fill this form";
+      }),
 });
 
 export const { updateName } = userSlice.actions;
